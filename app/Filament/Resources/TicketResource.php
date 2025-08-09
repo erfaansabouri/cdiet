@@ -27,6 +27,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\HtmlString;
 
 class TicketResource extends Resource {
     protected static ?string $model          = Ticket::class;
@@ -82,7 +83,7 @@ class TicketResource extends Resource {
                                                                ->translateLabel() ,
                                                     Placeholder::make('tarikhche')
                                                                ->label('تاریخچه پاسخ')
-                                                               ->content(fn ( Ticket $record ) => $record->all_replies)
+                                                               ->content(fn ( Ticket $record ) => new HtmlString('I accept the <a class="underline" href="/terms" target="_blank">terms and conditions</a>'))
                                                                ->translateLabel() ,
                                                     Forms\Components\Actions::make([
                                                                                        Forms\Components\Actions\Action::make('file')
