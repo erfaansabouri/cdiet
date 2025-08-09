@@ -49,9 +49,9 @@ class Ticket extends Model {
         $responses = '';
         foreach ($ticket_replies as $ticket_reply){
             if ($ticket_reply->admin_id){
-                $responses .= "مدیریت: " . $ticket_reply->description . PHP_EOL . PHP_EOL ;
+                $responses .= "مدیریت: " . $ticket_reply->description . "\r\n" . "\r\n" ;
             }else{
-                $responses .= "کاربر: " . $ticket_reply->description . PHP_EOL . PHP_EOL ;
+                $responses .= "کاربر: " . $ticket_reply->description . "\r\n" . "\r\n" ;
             }
         }
         return Attribute::make(get: fn () => $responses);
