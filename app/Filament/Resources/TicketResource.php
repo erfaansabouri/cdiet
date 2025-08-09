@@ -117,16 +117,6 @@ class TicketResource extends Resource {
                                              $ticket->ticket_status_id = TicketStatus::ANSWERED;
                                              $ticket->save();
                                          }) ,
-                                   Action::make('show_replies')
-                                         ->button()
-                                         ->outlined()
-                                         ->icon('')
-                                         ->translateLabel()
-                                         ->form([// show ticket replies order by created at
-                                                ])
-                                         ->action(function ( Ticket $ticket , array $data ) {
-
-                                         }) ,
                                ])
                      ->bulkActions([])
                      ->defaultSort('id' , 'desc');
