@@ -49,9 +49,9 @@ class Ticket extends Model {
         $responses = '';
         foreach ($ticket_replies as $ticket_reply){
             if ($ticket_reply->admin_id){
-                $responses .= "مدیریت: " . $ticket_reply->description . "<br>" . "<br>" ;
+                $responses .= "مدیریت: " . $ticket_reply->description  . " ". verta($ticket_reply->created_at)->formatJalaliDatetime() . "<br>" . "<br>" ;
             }else{
-                $responses .= "کاربر: " . $ticket_reply->description . "<br>" . "<br>" ;
+                $responses .= "کاربر: " . $ticket_reply->description . " ". verta($ticket_reply->created_at)->formatJalaliDatetime() . "<br>" . "<br>" ;
             }
         }
         return Attribute::make(get: fn () => $responses);
