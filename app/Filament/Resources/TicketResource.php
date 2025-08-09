@@ -82,7 +82,7 @@ class TicketResource extends Resource {
                                                                ->translateLabel() ,
                                                     Placeholder::make('tarikhche')
                                                                ->label('تاریخچه پاسخ')
-                                                               ->content(fn ( Ticket $record ): string => $record->all_replies)
+                                                               ->content(fn ( Ticket $record ) => $record->all_replies)
                                                                ->translateLabel() ,
                                                     Forms\Components\Actions::make([
                                                                                        Forms\Components\Actions\Action::make('file')
