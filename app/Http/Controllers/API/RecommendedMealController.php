@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\RecommendedMealResource;
 use App\Models\RecommendedMeal;
 use Auth;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class RecommendedMealController extends Controller {
@@ -30,6 +31,12 @@ class RecommendedMealController extends Controller {
     public function index ( Request $request ) {
         $user = Auth::user();
         $recommended_meals = RecommendedMeal::query()
+                                            ->when($user->lactation_status , function ( Builder $query ) {
+                                                $query->where('for_lactation' , true);
+                                            })
+                                            ->when($user->pregnant_status , function ( Builder $query ) {
+                                                $query->where('for_pregnant' , true);
+                                            })
                                             ->where('goal' , $user->goal)
                                             ->get();
         foreach ( $recommended_meals as $recommended_meal ) {
