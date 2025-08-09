@@ -11,6 +11,7 @@ class BannerResource extends JsonResource {
             'id' => $this->id ,
             'image_url' => $this->getFirstMediaUrl('image') ,
             'target' => $this->target ,
+            'link' => $this->link ,
         ];
     }
 }

@@ -21,6 +21,8 @@ class BannerResource extends Resource {
         return $form->schema([
                                  Forms\Components\TextInput::make('title')
                                                            ->translateLabel() ,
+                                 Forms\Components\TextInput::make('link')
+                                                           ->label('لینک') ,
                                  Forms\Components\Select::make('location')
                                                         ->translateLabel()
                                                         ->required()
