@@ -82,6 +82,10 @@ class TicketResource extends Resource {
                                                     Placeholder::make('last_user_ticket_reply')
                                                                ->content(fn ( Ticket $record ): string => $record->last_user_ticket_reply->description)
                                                                ->translateLabel() ,
+                                                    Placeholder::make('tarikhche')
+                                                               ->label('تاریخچه پاسخ')
+                                                               ->content(fn ( Ticket $record ): string => $record->all_replies)
+                                                               ->translateLabel() ,
                                                     Forms\Components\Actions::make([
                                                                                        Forms\Components\Actions\Action::make('file')
                                                                                                                       ->translateLabel()
@@ -102,12 +106,22 @@ class TicketResource extends Resource {
                                                 ])
                                          ->action(function ( Ticket $ticket , array $data ) {
                                              try {
-                                                 $ticket->user->notify(new AdminAnsweredTicketNotification($data[ 'description' ], $ticket->last_user_ticket_reply->description));
+                                                 $ticket->user->notify(new AdminAnsweredTicketNotification($data[ 'description' ] , $ticket->last_user_ticket_reply->description));
                                              }
                                              catch ( Exception $exception ) {
                                              }
                                              $ticket->ticket_status_id = TicketStatus::ANSWERED;
                                              $ticket->save();
+                                         }) ,
+                                   Action::make('show_replies')
+                                         ->button()
+                                         ->outlined()
+                                         ->icon('')
+                                         ->translateLabel()
+                                         ->form([// show ticket replies order by created at
+                                                ])
+                                         ->action(function ( Ticket $ticket , array $data ) {
+
                                          }) ,
                                ])
                      ->bulkActions([])

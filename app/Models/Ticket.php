@@ -40,4 +40,20 @@ class Ticket extends Model {
                                                   ->latest()
                                                   ->first());
     }
+
+    protected function allReplies (): Attribute {
+        $ticket_replies = $this->ticketReplies()
+            ->with(['user', 'admin'])
+             ->latest()
+             ->get();
+        $responses = '';
+        foreach ($ticket_replies as $ticket_reply){
+            if ($ticket_reply->admin_id){
+                $responses .= "مدیریت: " . $ticket_reply->description . "\n";
+            }else{
+                $responses .= "کاربر: " . $ticket_reply->description . "\n";
+            }
+        }
+        return Attribute::make(get: fn () => $responses);
+    }
 }
