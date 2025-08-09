@@ -83,7 +83,7 @@ class TicketResource extends Resource {
                                                                ->translateLabel() ,
                                                     Placeholder::make('tarikhche')
                                                                ->label('تاریخچه پاسخ')
-                                                               ->content(fn ( Ticket $record ) => new HtmlString('I accept the <a class="underline" href="/terms" target="_blank">terms and conditions</a>'))
+                                                               ->content(fn ( Ticket $record ) => new HtmlString($record->all_replies))
                                                                ->translateLabel() ,
                                                     Forms\Components\Actions::make([
                                                                                        Forms\Components\Actions\Action::make('file')
