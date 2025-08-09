@@ -6,6 +6,7 @@ use App\Filament\Resources\TicketResource\Pages;
 use App\Filament\Resources\TicketResource\RelationManagers;
 use App\Models\Ticket;
 use App\Models\TicketCategory;
+use App\Models\TicketReply;
 use App\Models\TicketStatus;
 use App\Notifications\AdminAnsweredTicketNotification;
 use App\Notifications\UserSendTicketNotification;
@@ -79,9 +80,6 @@ class TicketResource extends Resource {
                                                     Placeholder::make('title')
                                                                ->content(fn ( Ticket $record ): string => $record->title)
                                                                ->translateLabel() ,
-                                                    Placeholder::make('last_user_ticket_reply')
-                                                               ->content(fn ( Ticket $record ): string => $record->last_user_ticket_reply->description)
-                                                               ->translateLabel() ,
                                                     Placeholder::make('tarikhche')
                                                                ->label('تاریخچه پاسخ')
                                                                ->content(fn ( Ticket $record ): string => $record->all_replies)
@@ -106,6 +104,12 @@ class TicketResource extends Resource {
                                                 ])
                                          ->action(function ( Ticket $ticket , array $data ) {
                                              try {
+                                                 TicketReply::query()
+                                                            ->create([
+                                                                         'ticket_id' => $ticket->id ,
+                                                                         'admin_id' => auth()->id() ?? 1 ,
+                                                                         'description' => $data[ 'description' ],
+                                                                     ]);
                                                  $ticket->user->notify(new AdminAnsweredTicketNotification($data[ 'description' ] , $ticket->last_user_ticket_reply->description));
                                              }
                                              catch ( Exception $exception ) {
