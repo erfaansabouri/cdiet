@@ -52,7 +52,6 @@ class EditUser extends EditRecord {
                                           ->translateLabel() ,
                                  Select::make('goal')
                                        ->label(__('User goal'))
-                                       ->required()
                                        ->options([
                                                      'gain-weight' => 'افزایش وزن' ,
                                                      'loose-weight' => 'کاهش وزن' ,
