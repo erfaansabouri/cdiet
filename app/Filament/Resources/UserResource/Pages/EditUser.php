@@ -53,7 +53,12 @@ class EditUser extends EditRecord {
                                  Select::make('goal')
                                        ->label(__('User goal'))
                                        ->required()
-                                       ->options(array_combine(User::GOALS , User::GOALS)) ,
+                                       ->options([
+                                                     'gain-weight' => 'افزایش وزن' ,
+                                                     'loose-weight' => 'کاهش وزن' ,
+                                                     'maintain-weight' => 'تثبیت وزن' ,
+                                                     null => 'وزن دلخواه' ,
+                                                 ]) ,
                                  JalaliDatePicker::make('premium_expires_at')
                                                  ->jalali()
                                                  ->translateLabel()
