@@ -66,11 +66,6 @@ class MealtimeResource extends Resource {
                                                                                 ->required()
                                                                                 ->numeric()
                                                                                 ->columnSpan(2) ,
-                                                                       TextInput::make('to')
-                                                                                ->label("تا وزن")
-                                                                                ->required()
-                                                                                ->numeric()
-                                                                                ->columnSpan(2) ,
                                                                        Select::make('goal')
                                                                              ->label(__('User goal'))
                                                                              ->options([
