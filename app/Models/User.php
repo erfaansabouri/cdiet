@@ -25,7 +25,6 @@ class User extends Authenticatable implements HasMedia {
         'gain-weight' => 'افزایش وزن' ,
         'loose-weight' => 'کاهش وزن' ,
         'maintain-weight' => 'تثبیت وزن' ,
-        null => 'وزن دلخواه' ,
     ];
     const GOAL_RATIOS     = [
         'افزایش وزن' => 1.25 ,
