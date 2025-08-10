@@ -53,9 +53,9 @@ class EditUser extends EditRecord {
                                  Select::make('goal')
                                        ->label(__('User goal'))
                                        ->options([
-                                                     'gain-weight' => 'افزایش وزن' ,
-                                                     'loose-weight' => 'کاهش وزن' ,
-                                                     'maintain-weight' => 'تثبیت وزن' ,
+                                                     'افزایش وزن' => 'افزایش وزن' ,
+                                                     'کاهش وزن' => 'کاهش وزن' ,
+                                                     'تثبیت وزن' => 'تثبیت وزن' ,
                                                      null => 'وزن دلخواه' ,
                                                  ]) ,
                                  JalaliDatePicker::make('premium_expires_at')
