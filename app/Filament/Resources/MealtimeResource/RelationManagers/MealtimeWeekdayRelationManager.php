@@ -30,6 +30,21 @@ class MealtimeWeekdayRelationManager extends RelationManager {
                                           ->required()
                                           ->numeric()
                                           ->columnSpan(2) ,
+                                 TextInput::make('carbohydrate')
+                                          ->translateLabel()
+                                          ->required()
+                                          ->numeric()
+                                          ->columnSpan(2) ,
+                                 TextInput::make('fat')
+                                          ->translateLabel()
+                                          ->required()
+                                          ->numeric()
+                                          ->columnSpan(2) ,
+                                 TextInput::make('protein')
+                                          ->translateLabel()
+                                          ->required()
+                                          ->numeric()
+                                          ->columnSpan(2) ,
                                  TextInput::make('description')
                                           ->translateLabel()
                                           ->required()
