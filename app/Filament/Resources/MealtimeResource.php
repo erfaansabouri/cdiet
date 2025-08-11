@@ -14,6 +14,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -111,7 +112,7 @@ class MealtimeResource extends Resource {
                                                              'افزایش وزن' => 'افزایش وزن' ,
                                                              'تثبیت وزن' => 'تثبیت وزن' ,
                                                          ]),
-                               ])
+                               ], layout: FiltersLayout::AboveContent)
                      ->actions([
                                    Tables\Actions\EditAction::make() ,
                                ])
