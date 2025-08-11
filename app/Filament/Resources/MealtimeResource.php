@@ -77,6 +77,9 @@ class MealtimeResource extends Resource {
                                                                                 ->numeric()
                                                                                 ->columnSpan(2) ,
                                                                    ]) ,
+                                 Forms\Components\Toggle::make('for_pregnant')->label('مخصوص باردار ها'),
+                                 Forms\Components\Toggle::make('for_lactation')->label('مخصوص زنان شیر ده'),
+
                              ]);
     }
 
