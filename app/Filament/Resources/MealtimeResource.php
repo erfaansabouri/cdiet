@@ -33,7 +33,8 @@ class MealtimeResource extends Resource {
                                                                                            'کاهش وزن' => 'کاهش وزن' ,
                                                                                            'افزایش وزن' => 'افزایش وزن' ,
                                                                                            'تثبیت وزن' => 'تثبیت وزن' ,
-                                                                                       ]) ,
+                                                                                       ])
+                                                                             ->label('گروه') ,
                                                                        Forms\Components\Toggle::make('for_pregnant')
                                                                                               ->label('مخصوص باردار ها') ,
                                                                        Forms\Components\Toggle::make('for_lactation')
@@ -100,16 +101,16 @@ class MealtimeResource extends Resource {
                                    TextColumn::make('title')
                                              ->translateLabel() ,
                                    TextColumn::make('group')
-                                             ->translateLabel() ,
+                                             ->label('گروه') ,
                                ])
                      ->filters([
                                    SelectFilter::make('group')
                                                ->label('گروه')
                                                ->options([
-                                                             'کاهش وزن' => 'کاهش وزن',
-                                                             'افزایش وزن' => 'افزایش وزن',
-                                                             'تثبیت وزن' => 'تثبیت وزن',
-                                                         ])
+                                                             'کاهش وزن' => 'کاهش وزن' ,
+                                                             'افزایش وزن' => 'افزایش وزن' ,
+                                                             'تثبیت وزن' => 'تثبیت وزن' ,
+                                                         ]),
                                ])
                      ->actions([
                                    Tables\Actions\EditAction::make() ,
