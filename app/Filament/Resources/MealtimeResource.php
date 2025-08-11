@@ -14,17 +14,53 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class MealtimeResource extends Resource {
-    protected static ?string $model = Mealtime::class;
+    protected static ?string $model           = Mealtime::class;
     protected static ?string $navigationIcon  = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationGroup = "بخش خوراکی ها ورژن جدید";
 
     public static function form ( Form $form ): Form {
         return $form->schema([
+                                 Forms\Components\Fieldset::make('گروه')
+                                                          ->schema([
+                                                                       Select::make('group')
+                                                                             ->options([
+                                                                                           'کاهش وزن' => 'کاهش وزن' ,
+                                                                                           'افزایش وزن' => 'افزایش وزن' ,
+                                                                                           'تثبیت وزن' => 'تثبیت وزن' ,
+                                                                                       ]) ,
+                                                                       Forms\Components\Toggle::make('for_pregnant')
+                                                                                              ->label('مخصوص باردار ها') ,
+                                                                       Forms\Components\Toggle::make('for_lactation')
+                                                                                              ->label('مخصوص زنان شیر ده') ,
+                                                                   ]) ,
+                                 Forms\Components\Fieldset::make('تعیین گروه اضافه وزن مناسب با این وعده')
+                                                          ->schema([
+                                                                       TextInput::make('from')
+                                                                                ->label("میزان اضافه وزن از")
+                                                                                ->numeric()
+                                                                                ->columnSpan(2) ,
+                                                                       TextInput::make('to')
+                                                                                ->label("میزان اضافه وزن تا")
+                                                                                ->numeric()
+                                                                                ->columnSpan(2) ,
+                                                                   ]) ,
+                                 Forms\Components\Fieldset::make('تعیین گروه کمبود وزن مناسب با این وعده')
+                                                          ->schema([
+                                                                       TextInput::make('from2')
+                                                                                ->label("میزان کمبود وزن از")
+                                                                                ->numeric()
+                                                                                ->columnSpan(2) ,
+                                                                       TextInput::make('to2')
+                                                                                ->label("میزان کمبود وزن تا")
+                                                                                ->numeric()
+                                                                                ->columnSpan(2) ,
+                                                                   ]) ,
                                  TextInput::make('calorie')
                                           ->translateLabel()
                                           ->required()
@@ -54,32 +90,6 @@ class MealtimeResource extends Resource {
                                                                               ->openable()
                                                                               ->downloadable()
                                                                               ->columnSpan(2) ,
-                                 Forms\Components\Fieldset::make('تعیین گروه اضافه وزن مناسب با این وعده')
-                                                          ->schema([
-                                                                       TextInput::make('from')
-                                                                                ->label("میزان اضافه وزن از")
-                                                                                ->numeric()
-                                                                                ->columnSpan(2) ,
-                                                                       TextInput::make('to')
-                                                                                ->label("میزان اضافه وزن تا")
-                                                                                ->numeric()
-                                                                                ->columnSpan(2) ,
-
-                                                                   ]) ,
-                                 Forms\Components\Fieldset::make('تعیین گروه کمبود وزن مناسب با این وعده')
-                                                          ->schema([
-                                                                       TextInput::make('from2')
-                                                                                ->label("میزان کمبود وزن از")
-                                                                                ->numeric()
-                                                                                ->columnSpan(2) ,
-                                                                       TextInput::make('to2')
-                                                                                ->label("میزان کمبود وزن تا")
-                                                                                ->numeric()
-                                                                                ->columnSpan(2) ,
-                                                                   ]) ,
-                                 Forms\Components\Toggle::make('for_pregnant')->label('مخصوص باردار ها'),
-                                 Forms\Components\Toggle::make('for_lactation')->label('مخصوص زنان شیر ده'),
-
                              ]);
     }
 
@@ -89,8 +99,17 @@ class MealtimeResource extends Resource {
                                              ->translateLabel() ,
                                    TextColumn::make('title')
                                              ->translateLabel() ,
+                                   TextColumn::make('group')
+                                             ->translateLabel() ,
                                ])
-                     ->filters([//
+                     ->filters([
+                                   SelectFilter::make('group')
+                                               ->label('گروه')
+                                               ->options([
+                                                             'کاهش وزن' => 'کاهش وزن',
+                                                             'افزایش وزن' => 'افزایش وزن',
+                                                             'تثبیت وزن' => 'تثبیت وزن',
+                                                         ])
                                ])
                      ->actions([
                                    Tables\Actions\EditAction::make() ,
@@ -104,7 +123,7 @@ class MealtimeResource extends Resource {
 
     public static function getRelations (): array {
         return [
-            MealtimeWeekdayRelationManager::class,
+            MealtimeWeekdayRelationManager::class ,
         ];
     }
 
