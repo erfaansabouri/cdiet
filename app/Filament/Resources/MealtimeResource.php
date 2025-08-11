@@ -58,12 +58,10 @@ class MealtimeResource extends Resource {
                                                           ->schema([
                                                                        TextInput::make('from')
                                                                                 ->label("میزان اضافه وزن از")
-                                                                                ->required()
                                                                                 ->numeric()
                                                                                 ->columnSpan(2) ,
                                                                        TextInput::make('to')
                                                                                 ->label("میزان اضافه وزن تا")
-                                                                                ->required()
                                                                                 ->numeric()
                                                                                 ->columnSpan(2) ,
 
@@ -72,12 +70,10 @@ class MealtimeResource extends Resource {
                                                           ->schema([
                                                                        TextInput::make('from2')
                                                                                 ->label("میزان کمبود وزن از")
-                                                                                ->required()
                                                                                 ->numeric()
                                                                                 ->columnSpan(2) ,
                                                                        TextInput::make('to2')
                                                                                 ->label("میزان کمبود وزن تا")
-                                                                                ->required()
                                                                                 ->numeric()
                                                                                 ->columnSpan(2) ,
                                                                    ]) ,
