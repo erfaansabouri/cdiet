@@ -54,25 +54,32 @@ class MealtimeResource extends Resource {
                                                                               ->openable()
                                                                               ->downloadable()
                                                                               ->columnSpan(2) ,
-                                 Forms\Components\Fieldset::make('تعیین گروه مناسب با این وعده')
+                                 Forms\Components\Fieldset::make('تعیین گروه اضافه وزن مناسب با این وعده')
                                                           ->schema([
                                                                        TextInput::make('from')
-                                                                                ->label("از وزن")
+                                                                                ->label("میزان اضافه وزن از")
                                                                                 ->required()
                                                                                 ->numeric()
                                                                                 ->columnSpan(2) ,
                                                                        TextInput::make('to')
-                                                                                ->label("تا وزن")
+                                                                                ->label("میزان اضافه وزن تا")
                                                                                 ->required()
                                                                                 ->numeric()
                                                                                 ->columnSpan(2) ,
-                                                                       Select::make('goal')
-                                                                             ->label(__('User goal'))
-                                                                             ->options([
-                                                                                           'افزایش وزن' => 'افزایش وزن' ,
-                                                                                           'کاهش وزن' => 'کاهش وزن' ,
-                                                                                       ]) ,
 
+                                                                   ]) ,
+                                 Forms\Components\Fieldset::make('تعیین گروه کمبود وزن مناسب با این وعده')
+                                                          ->schema([
+                                                                       TextInput::make('from2')
+                                                                                ->label("میزان کمبود وزن از")
+                                                                                ->required()
+                                                                                ->numeric()
+                                                                                ->columnSpan(2) ,
+                                                                       TextInput::make('to2')
+                                                                                ->label("میزان کمبود وزن تا")
+                                                                                ->required()
+                                                                                ->numeric()
+                                                                                ->columnSpan(2) ,
                                                                    ]) ,
                              ]);
     }
