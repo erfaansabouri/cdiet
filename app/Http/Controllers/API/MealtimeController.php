@@ -72,7 +72,7 @@ class MealtimeController extends Controller {
                                 $query->where('from' , '<=' , $user->target_weight - $user->weight)
                                       ->where('to' , '>=' , $user->target_weight - $user->weight);
                             })
-                            ->when($user->goal == User::GOALS[ 'lose-weight' ] , function ( Builder $query ) use ( $user ) {
+                            ->when($user->goal == User::GOALS[ 'loose-weight' ] , function ( Builder $query ) use ( $user ) {
                                 $query->where('from2' , '<=' , $user->weight - $user->target_weight)
                                       ->where('to2' , '>=' , $user->weight - $user->target_weight);
                             })
