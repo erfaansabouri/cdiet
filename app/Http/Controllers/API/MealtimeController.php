@@ -69,13 +69,13 @@ class MealtimeController extends Controller {
                              });
         if ( !$user->pregnant_status && !$user->lactation_status ) {
             $mealtimes = $mealtimes->where('group' , $user->goal)
-                                   ->when($user->goal == User::GOALS[ 'gain-weight' ] , function ( Builder $query ) use ( $user ) {
+                                   ->when($user->targetWeight() > $user->weight , function ( Builder $query ) use ( $user ) {
                                        $query->where('from2' , '<=' , abs($user->targetWeight() - $user->weight))
-                                             ->where('to2' , '>=' , abs($user->targetWeight - $user->weight));
+                                             ->where('to2' , '>=' , abs($user->targetWeight() - $user->weight));
                                    })
-                                   ->when($user->goal == User::GOALS[ 'loose-weight' ] , function ( Builder $query ) use ( $user ) {
-                                       $query->where('from' , '<=' , abs($user->weight - $user->targetWeight))
-                                             ->where('to' , '>=' , abs($user->weight - $user->targetWeight));
+                                   ->when($user->weight > $user->targetWeight() , function ( Builder $query ) use ( $user ) {
+                                       $query->where('from' , '<=' , abs($user->weight - $user->targetWeight()))
+                                             ->where('to' , '>=' , abs($user->weight - $user->targetWeight()));
                                    });
         }
 
