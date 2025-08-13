@@ -104,11 +104,11 @@ class MealtimeResource extends Resource {
                                    TextColumn::make('id')
                                              ->translateLabel() ,
                                    TextColumn::make('panel_title')
-                                             ->label('عنوان پنل ادمین') ,
+                                             ->label('عنوان پنل ادمین')->searchable() ,
                                    TextColumn::make('title')
-                                             ->translateLabel() ,
+                                             ->translateLabel()->searchable() ,
                                    TextColumn::make('group')
-                                             ->label('گروه') ,
+                                             ->label('گروه')->searchable() ,
                                ])
                      ->filters([
                                    SelectFilter::make('group')
