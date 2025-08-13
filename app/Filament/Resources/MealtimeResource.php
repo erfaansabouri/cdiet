@@ -27,6 +27,10 @@ class MealtimeResource extends Resource {
 
     public static function form ( Form $form ): Form {
         return $form->schema([
+                                 TextInput::make('panel_title')
+                                          ->label('عنوان پنل ادمین')
+                                          ->required()
+                                          ->columnSpan(2) ,
                                  Forms\Components\Fieldset::make('گروه')
                                                           ->schema([
                                                                        Select::make('group')
@@ -99,6 +103,8 @@ class MealtimeResource extends Resource {
         return $table->columns([
                                    TextColumn::make('id')
                                              ->translateLabel() ,
+                                   TextColumn::make('panel_title')
+                                             ->label('عنوان پنل ادمین') ,
                                    TextColumn::make('title')
                                              ->translateLabel() ,
                                    TextColumn::make('group')
