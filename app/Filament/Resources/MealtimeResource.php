@@ -45,7 +45,7 @@ class MealtimeResource extends Resource {
                                                                        Forms\Components\Toggle::make('for_lactation')
                                                                                               ->label('مخصوص زنان شیر ده') ,
                                                                    ]) ,
-                                 Forms\Components\Fieldset::make('تعیین گروه اضافه وزن مناسب با این وعده')
+                                 Forms\Components\Fieldset::make('تعیین گروه کاهش وزن مناسب با این وعده')
                                                           ->schema([
                                                                        TextInput::make('from')
                                                                                 ->label("میزان اضافه وزن از")
@@ -56,7 +56,7 @@ class MealtimeResource extends Resource {
                                                                                 ->numeric()
                                                                                 ->columnSpan(2) ,
                                                                    ]) ,
-                                 Forms\Components\Fieldset::make('تعیین گروه کمبود وزن مناسب با این وعده')
+                                 Forms\Components\Fieldset::make('تعیین گروه افزایش مناسب با این وعده')
                                                           ->schema([
                                                                        TextInput::make('from2')
                                                                                 ->label("میزان کمبود وزن از")

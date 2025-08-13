@@ -153,7 +153,7 @@ class User extends Authenticatable implements HasMedia {
         return $this->daily_calorie_needed;
     }
 
-    public function targetWeight ( $date ) {
+    public function targetWeight ( $date = null ) {
         return ( $this->height - 100 );
     }
 

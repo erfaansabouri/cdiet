@@ -54,29 +54,32 @@ class MealtimeController extends Controller {
                                 ]);
     }
 
-    private function randomMealtime ($type) {
+    private function randomMealtime ( $type ) {
         $user = auth('api')->user();
         $weekSeed = floor(Carbon::now()->timestamp / ( 60 * 60 * 24 * 7 ));
         // Each 7 days => new integer
-        return Mealtime::query()
-                            ->with([ 'mealtimeWeekdays' ])
-                            ->where('title' , 'like' , "%$type%")
-                            ->when($user->pregnant_status , function ( Builder $query ) {
-                                $query->where('for_pregnant' , true);
-                            })
-                            ->when($user->lactation_status , function ( Builder $query ) {
-                                $query->where('for_lactation' , true);
-                            })
-                            ->where('group' , $user->goal)
-                            ->when($user->goal == User::GOALS[ 'gain-weight' ] , function ( Builder $query ) use ( $user ) {
-                                $query->where('from' , '<=' , abs($user->target_weight - $user->weight))
-                                      ->where('to' , '>=' , abs($user->target_weight - $user->weight));
-                            })
-                            ->when($user->goal == User::GOALS[ 'loose-weight' ] , function ( Builder $query ) use ( $user ) {
-                                $query->where('from2' , '<=' , abs($user->weight - $user->target_weight))
-                                      ->where('to2' , '>=' , abs($user->weight - $user->target_weight));
-                            })
-                            ->inRandomOrder($weekSeed)
-                            ->first();
+        $mealtimes = Mealtime::query()
+                             ->with([ 'mealtimeWeekdays' ])
+                             ->where('title' , 'like' , "%$type%")
+                             ->when($user->pregnant_status , function ( Builder $query ) {
+                                 $query->where('for_pregnant' , true);
+                             })
+                             ->when($user->lactation_status , function ( Builder $query ) {
+                                 $query->where('for_lactation' , true);
+                             });
+        if ( !$user->pregnant_status && !$user->lactation_status ) {
+            $mealtimes = $mealtimes->where('group' , $user->goal)
+                                   ->when($user->goal == User::GOALS[ 'gain-weight' ] , function ( Builder $query ) use ( $user ) {
+                                       $query->where('from2' , '<=' , abs($user->targetWeight() - $user->weight))
+                                             ->where('to2' , '>=' , abs($user->targetWeight - $user->weight));
+                                   })
+                                   ->when($user->goal == User::GOALS[ 'loose-weight' ] , function ( Builder $query ) use ( $user ) {
+                                       $query->where('from' , '<=' , abs($user->weight - $user->targetWeight))
+                                             ->where('to' , '>=' , abs($user->weight - $user->targetWeight));
+                                   });
+        }
+
+        return $mealtimes->inRandomOrder($weekSeed)
+                         ->first();
     }
 }
