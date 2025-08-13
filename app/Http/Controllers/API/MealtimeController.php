@@ -70,7 +70,7 @@ class MealtimeController extends Controller {
                              ->when(!$user->pregnant_status && !$user->lactation_status && $user->goal == User::GOALS[ 'maintain-weight' ] , function ( Builder $query ) {
                                  $query->where('group' , User::GOALS[ 'maintain-weight' ]);
                              });
-        if ( !$user->pregnant_status && !$user->lactation_status ) {
+        if ( !$user->pregnant_status && !$user->lactation_status && $user->goal != User::GOALS[ 'maintain-weight' ] ) {
             $mealtimes = $mealtimes->when($user->targetWeight() > $user->weight , function ( Builder $query ) use ( $user ) {
                 $query->where('from2' , '<=' , abs($user->targetWeight() - $user->weight))
                       ->where('to2' , '>=' , abs($user->targetWeight() - $user->weight));
