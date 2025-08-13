@@ -69,12 +69,12 @@ class MealtimeController extends Controller {
                             })
                             ->where('group' , $user->goal)
                             ->when($user->goal == User::GOALS[ 'gain-weight' ] , function ( Builder $query ) use ( $user ) {
-                                $query->where('from' , '<=' , $user->target_weight - $user->weight)
-                                      ->where('to' , '>=' , $user->target_weight - $user->weight);
+                                $query->where('from' , '<=' , abs($user->target_weight - $user->weight))
+                                      ->where('to' , '>=' , abs($user->target_weight - $user->weight));
                             })
                             ->when($user->goal == User::GOALS[ 'loose-weight' ] , function ( Builder $query ) use ( $user ) {
-                                $query->where('from2' , '<=' , $user->weight - $user->target_weight)
-                                      ->where('to2' , '>=' , $user->weight - $user->target_weight);
+                                $query->where('from2' , '<=' , abs($user->weight - $user->target_weight))
+                                      ->where('to2' , '>=' , abs($user->weight - $user->target_weight));
                             })
                             ->inRandomOrder($weekSeed)
                             ->first();
