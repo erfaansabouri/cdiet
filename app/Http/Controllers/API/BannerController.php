@@ -18,7 +18,7 @@ class BannerController extends Controller {
      *          description="location",
      *          in="query",
      *          name="location",
-     *          required=true,
+     *          required=false,
      *
      *          @OA\Schema(type="string"),
      *      ),
