@@ -68,4 +68,12 @@ class AiSettingResource extends Resource
             'edit' => Pages\EditAiSetting::route('/{record}/edit'),
         ];
     }
+
+    public static function getLabel (): ?string {
+        return __('Ai setting');
+    }
+
+    public static function getPluralLabel (): string {
+        return __('Ai settings');
+    }
 }
