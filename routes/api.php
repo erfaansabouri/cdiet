@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\ArticleCommentController;
 use App\Http\Controllers\API\ArticleController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\BannerController;
 use App\Http\Controllers\API\DietaryCookingCategoryController;
 use App\Http\Controllers\API\DietaryCookingCommentController;
 use App\Http\Controllers\API\DietaryCookingController;
@@ -98,6 +99,14 @@ Route::middleware([  ])
                   Route::get('texts' , [
                       HomeController::class ,
                       'texts',
+                  ]);
+              });
+         Route::middleware([ 'auth:api' ])
+              ->prefix('banners')
+              ->group(function () {
+                  Route::get('index' , [
+                      BannerController::class ,
+                      'index',
                   ]);
               });
          Route::middleware([ 'auth:api' ])
