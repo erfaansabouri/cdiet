@@ -154,7 +154,7 @@ class User extends Authenticatable implements HasMedia {
     }
 
     public function targetWeight ( $date = null ) {
-        return $this->target_weight ?? ( $this->height - 100 );
+        return ($this->target_weight && $this->goal == null ) ? $this->target_weight : ( $this->height - 100 );
     }
 
     public function targetWeightWeek ( $date ) {
