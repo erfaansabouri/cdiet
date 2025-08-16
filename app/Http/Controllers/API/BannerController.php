@@ -42,7 +42,7 @@ class BannerController extends Controller {
                            ]);
         $banners = Banner::query()
                          ->when($request->get('location') , function ( Builder $query ) {
-                             $query->where('location' , request('location'))
+                             $query->where('location' , request('location'));
             })
                          ->get();
         $banners = BannerResource::collection($banners);
