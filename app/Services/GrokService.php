@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\AiSetting;
 use App\Models\Message;
 use Http;
 
@@ -20,9 +21,10 @@ class GrokService {
                                      'content' ,
                                  ])
                            ->toArray();
+        $ai_setting = AiSetting::query()->firstOrCreate([]);
         $messages[] = [
             'role' => 'system' ,
-            'content' => 'You are a helpful assistant for a diet application, introduce your self as calorie-diet ai and do not suggest any application about diet. just answer questions about diet or exercises or calorie or fat or carbohydrate and health subjects, if user asked any other question tell me he or she is not allowed to ask' ,
+            'content' => $ai_setting->system_content ,
         ];
         $messages[] = [
             'role' => 'user' ,
@@ -37,7 +39,7 @@ class GrokService {
                        'stream' => false ,
                        'temperature' => 0.7 ,
                        'messages' => $messages ,
-                       'max_completion_tokens' => 500,
+                       'max_completion_tokens' => (int)$ai_setting->max_completion_tokens,
                    ])
                    ->json()[ 'choices' ][ 0 ][ 'message' ][ 'content' ];
     }
