@@ -213,6 +213,9 @@ class UserActivityController extends Controller {
                                         'user_id' => Auth::user()->id ,
                                         'date' => verta()->format('Y/m/d') ,
                                         'amount' => (int)$mealtime_weekday->calorie ,
+                                        'carbohydrate' => (int)$mealtime_weekday->carbohydrate ,
+                                        'fat' => (int)$mealtime_weekday->fat ,
+                                        'protein' => (int)$mealtime_weekday->protein ,
                                     ]);
 
         return util()->simpleSuccess('کالری با موفقیت افزوده شد!');

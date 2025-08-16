@@ -19,7 +19,7 @@ class User extends Authenticatable implements HasMedia {
     protected $casts = [
         'pregnant_status' => 'boolean' ,
         'lactation_status' => 'boolean' ,
-        'allow_notification' => 'boolean',
+        'allow_notification' => 'boolean' ,
     ];
     const GOALS           = [
         'gain-weight' => 'افزایش وزن' ,
@@ -99,9 +99,10 @@ class User extends Authenticatable implements HasMedia {
             return Attribute::make(get: fn () => 0);
         }
         $age_ratio = $this->is_male ? 5 : -161;
-        if ($this->male){
+        if ( $this->male ) {
             $result = ( $this->weight * 10 ) + ( $this->height * 6.25 ) - ( 5 * ( $this->age + $age_ratio ) );
-        }else{
+        }
+        else {
             $result = ( $this->weight * 10 ) + ( $this->height * 6.25 ) + ( 5 * ( $this->age + $age_ratio ) );
         }
         $result = self::EXERCISE_RATIOS[ $this->exercise ] * self::GOAL_RATIOS[ $this->goal ] * $result;
@@ -154,16 +155,18 @@ class User extends Authenticatable implements HasMedia {
     }
 
     public function targetWeight ( $date = null ) {
-        return ($this->target_weight && $this->goal == null ) ? $this->target_weight : ( $this->height - 100 );
+        return ( $this->target_weight && $this->goal == null ) ? $this->target_weight : ( $this->height - 100 );
     }
 
     public function targetWeightWeek ( $date ) {
         $last_plan = $this->lastPlan();
         if ( $last_plan && $last_plan->days ) {
             $weeks = $last_plan->days / 7 ?? 1;
-            return ($this->targetWeight(null) - $this->weight) / $weeks;
+
+            return ( $this->targetWeight(null) - $this->weight ) / $weeks;
         }
-        return ($this->targetWeight(null) - $this->weight) / 4;
+
+        return ( $this->targetWeight(null) - $this->weight ) / 4;
     }
 
     public function burnedCalorie ( $jalali_date ) {
@@ -214,13 +217,11 @@ class User extends Authenticatable implements HasMedia {
                 $total += $food->calorie;
             }
         }
-
         $cgcs = CustomGainedCalorie::query()
-                                                    ->where('date' , '>=' , $started_jalali_date)
-                                                    ->where('date' , '<=' , $ended_jalali_date)
-                                                    ->where('user_id' , $this->id)
-                                                    ->sum('amount');
-
+                                   ->where('date' , '>=' , $started_jalali_date)
+                                   ->where('date' , '<=' , $ended_jalali_date)
+                                   ->where('user_id' , $this->id)
+                                   ->sum('amount');
         $total += $cgcs;
 
         return $total;
@@ -240,6 +241,11 @@ class User extends Authenticatable implements HasMedia {
                 $total += $food->fat;
             }
         }
+        $cgcs = CustomGainedCalorie::query()
+                                   ->where('date' , $jalali_date)
+                                   ->where('user_id' , $this->id)
+                                   ->sum('fat');
+        $total += $cgcs;
 
         return $total;
     }
@@ -259,6 +265,12 @@ class User extends Authenticatable implements HasMedia {
             }
         }
 
+        $cgcs = CustomGainedCalorie::query()
+                                   ->where('date' , $jalali_date)
+                                   ->where('user_id' , $this->id)
+                                   ->sum('protein');
+        $total += $cgcs;
+
         return $total;
     }
 
@@ -276,6 +288,13 @@ class User extends Authenticatable implements HasMedia {
                 $total += $food->carbohydrate;
             }
         }
+
+
+        $cgcs = CustomGainedCalorie::query()
+                                   ->where('date' , $jalali_date)
+                                   ->where('user_id' , $this->id)
+                                   ->sum('carbohydrate');
+        $total += $cgcs;
 
         return $total;
     }
