@@ -43,6 +43,12 @@ class User extends Authenticatable implements HasMedia {
         'زیاد' => 1.8 ,
         'خیلی زیاد' => 1.9 ,
     ];
+    const EXERCISE_BMR    = [
+        'کم' => 1.2 ,
+        'متوسط' => 1.55 ,
+        'زیاد' => 1.725 ,
+        'خیلی زیاد' => 1.9 ,
+    ];
     const SEXES           = [
         'male' => 'مرد' ,
         'female' => 'زن' ,
@@ -95,19 +101,33 @@ class User extends Authenticatable implements HasMedia {
     }
 
     protected function dailyCalorieNeeded (): Attribute {
-        if ( !$this->register_completed || !$this->exercise || !$this->goal ) {
-            return Attribute::make(get: fn () => 0);
-        }
-        $age_ratio = $this->is_male ? 5 : -161;
-        if ( $this->male ) {
-            $result = ( $this->weight * 10 ) + ( $this->height * 6.25 ) - ( 5 * ( $this->age + $age_ratio ) );
-        }
-        else {
-            $result = ( $this->weight * 10 ) + ( $this->height * 6.25 ) + ( 5 * ( $this->age + $age_ratio ) );
-        }
-        $result = self::EXERCISE_RATIOS[ $this->exercise ] * self::GOAL_RATIOS[ $this->goal ] * $result;
+        return Attribute::make(get: function () {
+            $age_ratio = $this->is_male ? 5 : -161;
+            if ( $this->goal == null && $this->target_weight && $this->exercise ) {
+                $formula = ( $this->weight * 10 ) + ( $this->height * 6.25 ) - ( $this->age * 5 ) + $age_ratio;
+                $formula = $formula * self::EXERCISE_BMR[ $this->exercise ];
+                if ( $this->weight > $this->target_weight ) {
+                    $formula = $formula - 500;
+                }
+                else {
+                    $formula = $formula + 500;
+                }
 
-        return Attribute::make(get: fn () => $result);
+                return $formula;
+            }
+            if ( !$this->register_completed || !$this->exercise || !$this->goal ) {
+                return 0;
+            }
+            if ( $this->male ) {
+                $result = ( $this->weight * 10 ) + ( $this->height * 6.25 ) - ( 5 * ( $this->age + $age_ratio ) );
+            }
+            else {
+                $result = ( $this->weight * 10 ) + ( $this->height * 6.25 ) + ( 5 * ( $this->age + $age_ratio ) );
+            }
+            $result = self::EXERCISE_RATIOS[ $this->exercise ] * self::GOAL_RATIOS[ $this->goal ] * $result;
+
+            return $result;
+        });
     }
 
     protected function dailyCarbohydrateNeeded (): Attribute {
@@ -264,7 +284,6 @@ class User extends Authenticatable implements HasMedia {
                 $total += $food->protein;
             }
         }
-
         $cgcs = CustomGainedCalorie::query()
                                    ->where('date' , $jalali_date)
                                    ->where('user_id' , $this->id)
@@ -288,8 +307,6 @@ class User extends Authenticatable implements HasMedia {
                 $total += $food->carbohydrate;
             }
         }
-
-
         $cgcs = CustomGainedCalorie::query()
                                    ->where('date' , $jalali_date)
                                    ->where('user_id' , $this->id)
