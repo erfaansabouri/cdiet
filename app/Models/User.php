@@ -105,7 +105,7 @@ class User extends Authenticatable implements HasMedia {
             $age_ratio = $this->is_male ? 5 : -161;
             if ( $this->goal == null && $this->target_weight && $this->exercise ) {
                 $formula = ( $this->weight * 10 ) + ( $this->height * 6.25 ) - ( $this->age * 5 ) + $age_ratio;
-                return $formula;
+
                 $formula = $formula * self::EXERCISE_BMR[ $this->exercise ];
                 if ( $this->weight > $this->target_weight ) {
                     $formula = $formula - 500;
